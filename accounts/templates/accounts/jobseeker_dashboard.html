@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobseeker Dashboard | TalentHire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light:rgb(70, 168, 253);
+            --secondary: #10b981;
+            --secondary-light:rgb(68, 226, 174);
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header with Photo Gradient */
+        .dashboard-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.85) 50%, rgba(59, 130, 246, 0.85) 50%), 
+                        url('https://images.unsplash.com/photo-1521791055366-0d553872125f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 30px 5% 80px;
+            height: 30vh;
+            min-height: 300px;
+            align-items: center;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .welcome-message h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        .welcome-message p {
+            opacity: 0.7;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-profile {
+            text-align: right;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            padding: 15px 20px;
+            border-radius: 8px;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .user-id {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* User Photo */
+        .user-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            margin-left: 15px;
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        
+        .user-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Main Content */
+        .dashboard-main {
+            max-width: 1200px;
+            margin: -60px auto 60px;
+            padding: 0 5%;
+            position: relative;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .icon-blue {
+            background: linear-gradient(135deg, var(--primary) 50%, var(--primary-light) 50%);
+        }
+        
+        .icon-green {
+            background: linear-gradient(135deg, var(--secondary) 50%, var(--secondary-light) 50%);
+        }
+        
+        .icon-purple {
+            background: linear-gradient(135deg, #7c3aed 50%, #a78bfa 50%);
+        }
+        
+        .icon-orange {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        }
+        
+        .card-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-body p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+        
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .card-link:hover {
+            color: var(--primary-light);
+        }
+        
+        .card-link i {
+            margin-left: 5px;
+            transition: transform 0.2s;
+        }
+        
+        .card-link:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Footer */
+        .dashboard-footer {
+            background: white;
+            padding: 30px 5%;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .footer-links h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            color: #64748b;
+            transition: color 0.2s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .user-profile {
+                text-align: left;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                padding-bottom: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Photo Background -->
+    <header class="dashboard-header">
+    <div class="header-content">
+        <div class="welcome-message">
+            <h1>Welcome back, <span id="user-name">{{ request.user.first_name }} {{ request.user.last_name }}</span></h1>
+            <p>
+                Find your next big career opportunity with ease on our Job Portal — <br>
+                explore personalized job recommendations based on your profile, apply with just a few clicks. <br>
+                Track every application from one unified dashboard.<br>
+                Update your resume, showcase your skills, set your job preferences. <br>
+                All designed to help you land the perfect job faster and smarter.
+            </p>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <div class="user-profile">
+                <div class="user-name">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+                <div class="user-id">ID: {{ profile.id }}</div>
+            </div>
+            <div class="user-photo">
+                {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="User photo">
+                {% else %}
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Default photo">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-cards">
+            <!-- Available Jobs Card -->
+            <a href="{% url 'available_jobs' %}" class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon icon-blue">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h2>Available Jobs</h2>
+                </div>
+                <div class="card-body">
+                    <p>Browse through hundreds of job opportunities matching your skills and preferences.</p>
+                    <span class="card-link">
+                        View jobs
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- My Applications Card -->
+            <a href="{% url 'my_applications' %}" class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon icon-green">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h2>My Applications</h2>
+                </div>
+                <div class="card-body">
+                    <p>Easily monitor and manage the progress of all your job applications in one centralized dashboard.</p>
+                    <span class="card-link">
+                        View applications
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- Recommended Jobs Card -->
+            <a href="{% url 'recommended_jobs' %}" class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon icon-purple">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h2>Recommended Jobs</h2>
+                </div>
+                <div class="card-body">
+                    <p>Discover personalized job recommendations tailored specifically to your skills, experience, and preferences.</p>
+                    <span class="card-link">
+                        View recommendations
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+
+            <!-- My Profile Card -->
+            <a href="{% url 'my_profile' %}" class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon icon-orange">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>My Profile</h2>
+                </div>
+                <div class="card-body">
+                    <p>Easily access and update your personal profile, showcase your skills and fine-tune your job preferences.</p>
+                    <span class="card-link">
+                        View profile
+                        <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <div class="footer-logo">TalentHire</div>
+                <p style="color: #64748b; margin-bottom: 20px;">
+                    Connecting talented professionals with great career opportunities.
+                </p>
+            </div>
+
+            <div class="footer-links">
+                <h3>For Jobseekers</h3>
+                <ul>
+                    <li><a href="#">How it works</a></li>
+                    <li><a href="{% url 'available_jobs' %}">Browse jobs</a></li>
+                    <li><a href="#">Career advice</a></li>
+                    <li><a href="#">Job search tips</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Help center</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Resume builder</a></li>
+                    <li><a href="#">Interview prep</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>© 2025 TalentHire. All rights reserved.</div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" onclick="return confirm('Are you sure you want to logout?');"  class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

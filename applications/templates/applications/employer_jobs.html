@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Job Listings | TalentHire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --secondary-light:rgb(16, 211, 146);
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+            color: white;
+            padding: 60px 5% 40px;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Main Content */
+        .job-list-container {
+            max-width: 1200px;
+            margin: -30px auto 60px;
+            padding: 0 5%;
+        }
+        
+        .job-list-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-filter {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .search-filter input {
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            min-width: 250px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-light);
+        }
+        
+        /* Job Listings */
+        .job-listings {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .job-card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .job-company {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .job-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #e0e7ff;
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .job-description {
+            color: #64748b;
+            margin: 15px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+        
+        .job-posted {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .job-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .job-actions .btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: #f1f5fe;
+        }
+        
+        .btn-danger {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 10px;
+        }
+        
+        .page-item {
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .page-item.active {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .page-item:not(.active):hover {
+            background: #e2e8f0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .job-list-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-filter {
+                width: 100%;
+            }
+            
+            .search-filter input {
+                min-width: auto;
+                flex-grow: 1;
+            }
+            
+            .job-card-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .job-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .job-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1>Your Job Applicants</h1>
+            <p>View and manage all your job applicants in one page</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="job-list-container">
+        <div class="job-list-actions">
+            <form method="get" class="search-filter">
+                <input type="text" name="q" placeholder="Search with Job Titles..." value="{{ query|default:'' }}"/>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+            </form>
+        </div>
+
+        <div class="job-listings">
+            {% for job in jobs %}
+            <div class="job-card">
+                <div class="job-card-header">
+                    <div>
+                        <div class="job-company">{{ job.employer.employer_profile.company_name }}</div>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
+                            <span><i class="fas fa-briefcase"></i> {{ job.department }}</span>
+                        </div>
+                    </div>
+                    <span class="job-type">{{ job.job_type }}</span>
+                </div>
+
+                <h3 class="job-title">{{ job.job_title }}</h3>
+
+                <p class="job-description">
+                    {{ job.job_description|truncatechars:300 }}
+                </p>
+
+                <div class="job-footer">
+                    <div class="job-actions">
+                        <a href="{% url 'employer_applicant_list' job.id %}" class="btn btn-outline">
+                            <i class="fas fa-edit"></i> View Applicants
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+                <p>No job listings found.</p>
+            {% endfor %}
+
+            {% if is_paginated %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a class="page-item" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Previous</a>
+                    {% endif %}
+
+                    {% for num in paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <span class="page-item active">{{ num }}</span>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <a class="page-item" href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <a class="page-item" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post New Job | TalentHire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color:rgb(0, 0, 0); /* Light gray-blue background */
+            background-image: linear-gradient(
+                to bottom,
+                rgba(5, 12, 28, 0.9),
+                rgba(22, 74, 158, 0.9)
+            );
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: #1e293b;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .post-job-header {
+            background-color:rgb(0, 0, 0);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: linear-gradient(
+                to top,
+                rgba(5, 12, 28, 0.9),
+                rgba(22, 74, 158, 0.9)
+            );
+            padding: 60px 5% 40px;
+            text-align: center;
+        }
+        
+        .post-job-header h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .post-job-header p {
+            font-size: 1.1rem;
+            color: lightGrey;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        /* Main Form Container */
+        .post-job-container {
+            max-width: 900px;
+            margin: -40px auto 60px;
+            padding: 0 5%;
+            position: relative;
+        }
+        
+        .post-job-form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+        }
+        
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 40px;
+        }
+        
+        .form-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .required:after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="url"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: white;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Checkbox Styles */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input {
+            margin-right: 10px;
+        }
+        
+        /* Salary Range */
+        .salary-range {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .salary-range span {
+            color: var(--gray);
+        }
+        
+        /* Form Actions */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f1f5fe;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .post-job-header h1 {
+                font-size: 2rem;
+            }
+            
+            .post-job-form {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .post-job-header {
+                padding: 40px 5% 30px;
+            }
+            
+            .post-job-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .error-message {
+                color: red;
+                font-size: 0.9rem;
+                margin-top: 5px;
+            }
+
+            .required{
+                content: " *";
+                color: #e74c3c;
+            }
+
+            .success-message {
+                background: #d1fae5;
+                color: #065f46;
+                padding: 10px 20px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                border: 1px solid #10b981;
+            }  
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="post-job-header">
+        <h1>Post a New Job</h1>
+        <p>Fill out the form below to list your job opportunity and attract qualified candidates</p>
+    </header>
+
+    <!-- Form container -->
+    <div class="post-job-container">
+        <!-- ✅ Display success message -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="success-message", color: green>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="post-job-form">
+            {% csrf_token %}
+
+            <!-- Section: Job Details -->
+            <div class="form-section">
+                <h2>Job Details</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="required" for="{{ form.job_title.id_for_label }}">Job Title</label>
+                        {{ form.job_title }}
+                        {% if form.job_title.errors %}
+                            <div class="error-message">{{ form.job_title.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="{{ form.job_type.id_for_label }}">Job Type</label>
+                        {{ form.job_type }}
+                        {% if form.job_type.errors %}
+                            <div class="error-message">{{ form.job_type.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="{{ form.location.id_for_label }}">Location</label>
+                        {{ form.location }}
+                        {% if form.location.errors %}
+                            <div class="error-message">{{ form.location.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.department.id_for_label }}">Department</label>
+                        {{ form.department }}
+                        {% if form.department.errors %}
+                            <div class="error-message">{{ form.department.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="required" for="{{ form.job_description.id_for_label }}">Job Description</label>
+                        {{ form.job_description }}
+                        {% if form.job_description.errors %}
+                            <div class="error-message">{{ form.job_description.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Requirements -->
+            <div class="form-section">
+                <h2>Requirements</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="required" for="{{ form.required_experience.id_for_label }}">Experience Level</label>
+                        {{ form.required_experience }}
+                        {% if form.required_experience.errors %}
+                            <div class="error-message">{{ form.required_experience.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="{{ form.required_education.id_for_label }}">Education Level</label>
+                        {{ form.required_education }}
+                        {% if form.required_education.errors %}
+                            <div class="error-message">{{ form.required_education.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="required" for="{{ form.required_skills.id_for_label }}">Required Skills</label>
+                        {{ form.required_skills }}
+                        {% if form.required_skills.errors %}
+                            <div class="error-message">{{ form.required_skills.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="{{ form.responsibilities.id_for_label }}">Responsibilities</label>
+                        {{ form.responsibilities }}
+                        {% if form.responsibilities.errors %}
+                            <div class="error-message">{{ form.responsibilities.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Application -->
+            <div class="form-section">
+                <h2>Application Process</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="required" for="{{ form.application_method.id_for_label }}">Application Method</label>
+                        {{ form.application_method }}
+                        {% if form.application_method.errors %}
+                            <div class="error-message">{{ form.application_method.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="required" for="{{ form.application_deadline.id_for_label }}">Application Deadline</label>
+                        {{ form.application_deadline }}
+                        {% if form.application_deadline.errors %}
+                            <div class="error-message">{{ form.application_deadline.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="{{ form.additional_notes.id_for_label }}">Additional Notes</label>
+                        {{ form.additional_notes }}
+                        {% if form.additional_notes.errors %}
+                            <div class="error-message">{{ form.additional_notes.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Post Job</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications | TalentHire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --status-pending: #f59e0b;
+            --status-reviewed: #3b82f6;
+            --status-rejected: #ef4444;
+            --status-accepted: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .applications-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+            color: white;
+            padding: 40px 5% 60px;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .applications-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .applications-header p {
+            opacity: 0.9;
+        }
+        
+        /* Main Content */
+        .applications-container {
+            max-width: 1200px;
+            margin: -40px auto 60px;
+            padding: 0 5%;
+            position: relative;
+        }
+        
+        /* Filters */
+        .applications-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            color: blue;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Applications List */
+        .applications-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .application-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .application-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .application-main {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .company-logo img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+        
+        .application-details h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .application-details .company {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .application-meta {
+            display: flex;
+            gap: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        
+        .application-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            align-self: flex-start;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: var(--status-pending);
+        }
+        
+        .status-reviewed {
+            background: #dbeafe;
+            color: var(--status-reviewed);
+        }
+        
+        .status-rejected {
+            background: #fee2e2;
+            color: var(--status-rejected);
+        }
+        
+        .status-accepted {
+            background: #d1fae5;
+            color: var(--status-accepted);
+        }
+        
+        .application-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .application-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .application-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            text-decoration: none;
+        }
+        
+        .btn-outline:hover {
+            background: #f1f5fe;
+        }
+        
+        .btn-danger {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .empty-state p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .application-header {
+                flex-direction: column;
+            }
+            
+            .application-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .application-status {
+                align-self: flex-start;
+            }
+            
+            .application-footer {
+                flex-direction: column;
+            }
+            
+            .application-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="applications-header">
+        <div class="header-content">
+            <h1>My Applications</h1>
+            <p>Track the status of all your job applications in one place</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="applications-container">
+
+        <!-- Filters (Static for now) -->
+        <div class="applications-filters">
+            <a href="{% url 'my_applications' %}" class="filter-btn {% if not selected_status %}active{% endif %}">All Applications</a>
+            <a href="?status=Pending" class="filter-btn {% if selected_status == 'Pending' %}active{% endif %}">Pending</a>
+            <a href="?status=Rejected" class="filter-btn {% if selected_status == 'Rejected' %}active{% endif %}">Rejected</a>
+            <a href="?status=Shortlisted" class="filter-btn {% if selected_status == 'Shortlisted' %}active{% endif %}">Shortlisted</a>
+        </div>
+
+        {% if applications %}
+        <div class="applications-list">
+            {% for application in applications %}
+            <div class="application-card" style="box-shadow: none; margin-bottom: 25px;">
+                <div class="application-header">
+                    <div class="application-main">
+                        <div class="application-details">
+                            <h3>{{ application.job.job_title }}</h3>
+                            <div class="company">{{ application.job.employer.employer_profile.company_name }}</div>
+                            <div class="application-meta">
+                                <span><i class="fas fa-map-marker-alt"></i> {{ application.job.location }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="application-status 
+                        {% if application.status == 'Pending' %}status-pending
+                        {% elif application.status == 'Rejected' %}status-rejected
+                        {% elif application.status == 'Shortlisted' %}status-accepted
+                        {% else %}status-reviewed{% endif %}">
+                        {{ application.status }}
+                    </div>
+                </div>
+
+                <div class="application-footer">
+                    <div class="application-date">
+                        Applied on: {{ application.date_applied|date:"F j, Y" }}
+
+                        {% if application.status == 'Shortlisted' %}
+                            <div style="margin-top:10px; font-size: 0.9rem; padding: 10px; border-radius: 6px; 
+                                background-color: {% if application.mail_sent %}#d1fae5{% else %}#fef9c3{% endif %}; 
+                                color: {% if application.mail_sent %}#065f46{% else %}#92400e{% endif %};">
+                                {% if application.mail_sent %}
+                                    ✅ You are shortlisted. A mail has been sent to your email. Please verify it.
+                                {% else %}
+                                    ⏳ You are shortlisted. Please wait for an official email from {{ application.job.employer.employer_profile.company_name }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="application-actions">
+                    {% if application.status == 'Pending' %}
+                        <form method="POST" action="{% url 'withdraw_application' application.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="action-btn btn-danger" onclick="return confirm('Are you sure you want to withdraw this application?');">
+                                <i class="fas fa-trash"></i> Withdraw
+                            </button>
+                        </form>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="empty-state">
+                <i class="fas fa-file-alt"></i>
+                {% if selected_status %}
+                    <h3>No {{ selected_status }} Applications</h3>
+                    <p>You currently have no applications marked as "{{ selected_status }}".</p>
+                {% else %}
+                    <h3>No Applications Yet</h3>
+                    <p>You haven't applied to any jobs yet. Start browsing available positions to find your next opportunity.</p>
+                    <a href="{% url 'available_jobs' %}" class="action-btn btn-primary">
+                        <i class="fas fa-briefcase" style="font-size:15px"></i> Browse Jobs
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </main>
+
+    <script>
+        // Filter button active class
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

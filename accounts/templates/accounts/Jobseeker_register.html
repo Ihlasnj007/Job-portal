@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal | Candidate Registration</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header Styles */
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .form-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        
+        /* Form Styles */
+        .registration-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            margin-right: 8px;
+        }
+        
+        /* Button Styles */
+        .submit-btn {
+            grid-column: span 2;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Terms & Conditions */
+        .terms {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+        
+        .terms a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .registration-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width,
+            .submit-btn {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="form-header">
+            <h1>Join Our Talent Network</h1>
+            <p>Create your profile and get discovered by top employers</p>
+        </header>
+
+        <form class="registration-form" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div style="color: red; margin-bottom: 15px;">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            
+            {% for field in form %}
+                <div class="form-group {% if field.name in 'resume cover_letter' %}full-width{% endif %}">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %}*{% endif %}</label>
+                    {{ field }}
+                    <div style="color: red;">{{ field.errors }}</div>
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="submit-btn">Complete Registration</button>
+
+            <div class="terms">
+                By registering, you agree to our 
+                <a href="#">Terms of Service</a> and 
+                <a href="#">Privacy Policy</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,564 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant List | TalentHire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --sec:rgb(0, 174, 38);
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --status-pending: #f59e0b;
+            --status-reviewed: #3b82f6;
+            --status-rejected: #ef4444;
+            --status-accepted: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .applicants-header {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+            color: white;
+            padding: 40px 5% 60px;
+            position: relative;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .applicants-header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .applicants-header p {
+            opacity: 0.9;
+        }
+        
+        /* Job Info */
+        .job-info-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .job-info-card h2 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 20px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .job-description {
+            color: #64748b;
+            line-height: 1.7;
+        }
+        
+        /* Main Content */
+        .applicants-container {
+            max-width: 1200px;
+            margin: -40px auto 60px;
+            padding: 0 5%;
+            position: relative;
+        }
+        
+        /* Filters */
+        .applicants-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: black;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Applicants List */
+        .applicants-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .applicant-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .applicant-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .applicant-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .applicant-main {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .applicant-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .applicant-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .applicant-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        
+        .applicant-details p {
+            font-size: 1.0rem;
+            margin-bottom: 5px;
+        }
+
+        .applicant-title {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .applicant-contact {
+            display: flex;
+            gap: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }
+        
+        .applicant-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            align-self: flex-start;
+        }
+        
+        .status-pending {
+            background: #fef3c7;
+            color: var(--status-pending);
+        }
+        
+        .status-reviewed {
+            background: #dbeafe;
+            color: var(--status-reviewed);
+        }
+        
+        .status-rejected {
+            background: #fee2e2;
+            color: var(--status-rejected);
+        }
+        
+        .status-accepted {
+            background: #d1fae5;
+            color: var(--status-accepted);
+        }
+        
+        /* Applicant Documents */
+        .applicant-documents {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+        
+        .document-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .document-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .document-info {
+            flex: 1;
+        }
+        
+        .document-info h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        
+        .document-info p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .document-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .document-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .cover-letter-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-top: 10px;
+            align-items: flex-start;
+        }
+        
+        .cover-letter-item i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 3px;
+        }
+        
+        .cover-letter-container {
+            flex: 1;
+        }
+        
+        .cover-letter-header {
+            margin-bottom: 10px;
+        }
+        
+        .cover-letter-header h4 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+        
+        .cover-letter-header p {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .cover-letter-content {
+            color: #334155;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .cover-letter-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .cover-letter-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        
+        .cover-letter-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background: var(--sec);
+            color: green;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: #f1f5fe;
+        }
+        
+        /* Applicant Footer */
+        .applicant-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .application-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .applicant-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .non-action-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .applicant-header {
+                flex-direction: column;
+            }
+            
+            .applicant-main {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .applicant-status {
+                align-self: flex-start;
+            }
+            
+            .applicant-footer {
+                flex-direction: column;
+            }
+            
+            .applicant-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="applicants-header">
+        <div class="header-content">
+            <h1>Applicants for {{ job.job_title }}</h1>
+            <p>Review and manage candidates who applied for this position</p>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="applicants-container">
+        <!-- Job Info -->
+        <div class="job-info-card">
+            <h2>{{ job.job_title }}</h2>
+            <div class="job-meta">
+                <span><i class="fas fa-map-marker-alt"></i> {{ job.location }} </span>
+                <span><i class="fas fa-briefcase"></i> {{ job.job_type }} </span>
+            </div>
+            <div class="job-description">
+                {{ job.job_description }}
+            </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="applicants-filters">
+            <a href="{% url 'employer_applicant_list' job.id %}" class="filter-btn {% if not selected_status %}active{% endif %}">All Applicants</a>
+            <a href="?status=Pending" class="filter-btn {% if selected_status == 'Pending' %}active{% endif %}">Pending</a>
+            <a href="?status=Rejected" class="filter-btn {% if selected_status == 'Rejected' %}active{% endif %}">Rejected</a>
+            <a href="?status=Shortlisted" class="filter-btn {% if selected_status == 'Shortlisted' %}active{% endif %}">Shortlisted</a>
+        </div>
+        
+        {% if applicants %}
+        <!-- Applicants List -->
+        <div class="applicants-list">
+            {% for applicant in applicants %}
+            <div class="applicant-card">
+                <div class="applicant-header">
+                    <div class="applicant-main">
+                        <div class="applicant-photo">
+                            <img src="{% static 'applications\blue-circle-with-white-user_78370-4707.avif' %}" alt="Sarah Williams">
+                        </div>
+                        <div class="applicant-details">
+                            <h3>{{ applicant.jobseeker.user.first_name }} {{ applicant.jobseeker.user.last_name }} </h3> 
+                            <p>Status :
+                                <span style="color:{% if applicant.status == 'Shortlisted' %}GoldenRod{% elif applicant.status == 'Rejected' %}Crimson{% else %}Gray{% endif %}">
+                                {{ applicant.status }}
+                                </span></p>
+                            <div class="applicant-title">{{ applicant.jobseeker.profession }}</div>
+                            <div class="applicant-contact">
+                                <span><i class="fas fa-envelope"></i> {{ applicant.jobseeker.user.email }}</span>
+                                <span><i class="fas fa-phone"></i> {{ applicant.jobseeker.phone_number }}</span>
+                                <span><i class="fas fa-user-graduate"></i> {{ applicant.jobseeker.education }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Documents -->
+                <div class="applicant-documents">
+                    <div class="document-item">
+                        <i class="fas fa-file-pdf"></i>
+                        <div class="document-info">
+                            <h4>{{ applicant.jobseeker.resume.name|slice:"8:" }}</h4>
+                            <p>Uploaded Resume</p>
+                        </div>
+                        <div class="document-actions">
+                            <a href="{% url 'view_resume' applicant.id %}" target="_blank" class="document-btn btn-primary">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cover Letter Section -->
+                <div class="cover-letter-item">
+                    <i class="fas fa-file-alt"></i>
+                    <div class="cover-letter-container">
+                        <div class="cover-letter-header">
+                            <h4>Cover Letter</h4>
+                            <p>{{ applicant.date_applied }}</p>
+                        </div>
+                        {% if applicant.cover_letter %}
+                            <div class="cover-letter-content">
+                                {{ applicant.cover_letter }}
+                            </div>
+                        {% else %}
+                            <div class="cover-letter-content">
+                                <p>Empty Cover-Letter</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="applicant-footer">
+                    <div class="application-date">
+                        Applied on: {{ applicant.date_applied }}
+                    </div>
+                    {% if applicant.status == 'Pending' %}
+                        <!-- Reject Form -->
+                        <form action="{% url 'update_application_status' applicant.id %}" method="post" class="applicant-actions" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="new_status" value="Rejected">
+                            <button type="submit" class="action-btn btn-outline">
+                                <i class="fa fa-close" style="font-size:18px; color:Crimson;"></i> Reject
+                            </button>
+                        </form>
+
+                        <!-- Shortlist Form -->
+                        <form action="{% url 'update_application_status' applicant.id %}" method="post" class="applicant-actions" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="new_status" value="Shortlisted">
+                            <button type="submit" class="action-btn btn-outline">
+                                <i class="fa fa-check" style="font-size:18px; color:GoldenRod;"></i> Shortlist
+                            </button>
+                        </form>
+                    {% elif applicant.status == 'Shortlisted' %}
+                        {% if applicant.mail_sent %}
+                            <span class="non-action-btn btn-secondary" style="color: white;">Mail Sent  <i class="fa fa-check" aria-hidden="true" style="color: white; font-size: 20px"></i></span>
+                        {% else %}
+                            {% comment %} Gmail open on send mail {% endcomment %}
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ applicant.jobseeker.user.email }}"
+                                target="_blank"
+                                class="action-btn btn-primary" style="margin-right: 15px;">
+                                <i class="fas fa-paper-plane"></i> Send Mail
+                            </a>
+                            {% comment %} MArk sent True {% endcomment %}
+                            <form action="{% url 'mark_mail_sent' applicant.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-btn btn-primary" style= "color:white" onclick="return confirm('Are you sure You Sent the Mail?, you cannot undone if once performed');">
+                                <i class="fa fa-flag-checkered" style="color: white; font-size: 20px"></i> Mail Sent Successfully</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+             <p>No Applicants Available for this Job{% if selected_status %} with status "{{ selected_status }}"{% endif %}.</p>
+        {% endif %}
+    </main>
+</body>
+</html>
