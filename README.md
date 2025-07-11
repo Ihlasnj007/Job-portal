@@ -74,6 +74,12 @@ TalentHire is a fully-featured Job Portal built with Django. It allows employers
 ## 🔑 Setup Instructions
 
 ### Clone the repo:
-```bash
+```
 git clone https://github.com/Ihlasnj007/Job-portal.git
 cd Job-portal
+```
+
+🧑‍💻 Developed By
+Ihlas N J
+A full-fledged Django web application project focused on real-world job portal workflows.
+
