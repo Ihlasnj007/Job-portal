@@ -79,7 +79,7 @@ git clone https://github.com/Ihlasnj007/Job-portal.git
 cd Job-portal
 ```
 
-🧑‍💻 Developed By
-Ihlas N J
-A full-fledged Django web application project focused on real-world job portal workflows.
+## 🧑‍💻 Developed By
+- Ihlas N J
+- A full-fledged Django web application project focused on real-world job portal workflows.
 
