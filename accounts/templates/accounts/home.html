@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JobBoard | Find Your Dream Career</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #d9e4f5);
+            color: #333;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            padding: 20px 10%;
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2a44;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #0077ff;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 10%;
+            min-height: 90vh;
+        }
+
+        .hero-text {
+            max-width: 550px;
+        }
+
+        .hero-text h1 {
+            font-size: 52px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: #1f2a44;
+        }
+
+        .hero-text p {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+        }
+
+        .hero-buttons a {
+            margin-right: 15px;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 40px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-jobseeker {
+            background: linear-gradient(135deg, #0077ff, #00c6ff);
+            color: white;
+            box-shadow: 0 8px 20px rgba(0,119,255,0.3);
+        }
+
+        .btn-jobseeker:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,119,255,0.4);
+        }
+
+        .btn-employer {
+            border: 2px solid #0077ff;
+            color: #0077ff;
+            background: transparent;
+        }
+
+        .btn-employer:hover {
+            background: #0077ff;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-image img {
+            width: 520px;
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
+        }
+
+        /* FEATURES SECTION */
+        .features {
+            padding: 100px 10%;
+            background: white;
+            text-align: center;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .features h2 {
+            font-size: 38px;
+            margin-bottom: 50px;
+            color: #1f2a44;
+        }
+
+        .feature-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            flex: 1;
+            min-width: 250px;
+            background: #f7f9fc;
+            padding: 40px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: #0077ff;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: #555;
+        }
+
+        /* FOOTER */
+        .footer {
+            padding: 40px 10%;
+            background: #1f2a44;
+            color: white;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image img {
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .feature-grid {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">JobBoard</div>
+        <div class="nav-links">
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Find Your Dream Job <br> Or Hire Top Talent</h1>
+            <p>
+                JobBoard connects employers and jobseekers through a secure,
+                intelligent and modern hiring platform designed for efficiency.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="{% url 'jobseeker_register' %}" class="btn-jobseeker">
+                    Join as Jobseeker
+                </a>
+                <a href="{% url 'employer_register' %}" class="btn-employer">
+                    Hire Talent
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="{% static 'images/accounts/job-interview-illustration-free-vector.jpg' %}" alt="Job Illustration">
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <h2>Why Choose JobBoard?</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <h3>Smart Job Search</h3>
+                <p>
+                    Advanced filtering and personalized job recommendations
+                    tailored to your skills and profession.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Efficient Hiring</h3>
+                <p>
+                    Employers can post jobs, manage applications, and shortlist
+                    candidates seamlessly.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Secure & Reliable</h3>
+                <p>
+                    Built with robust authentication and secure resume handling
+                    for a trustworthy hiring experience.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2026 JobBoard. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>

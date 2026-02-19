@@ -136,3 +136,7 @@ def edit_profile(request):
         'form': form,
         'profile':profile,
     })
+
+
+def home(request):
+    return render(request, 'accounts/home.html')

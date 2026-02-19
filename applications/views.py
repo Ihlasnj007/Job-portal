@@ -292,7 +292,7 @@ def recommended_jobs(request):
         Q(job_title__icontains=profession) |
         Q(job_description__icontains=profession) |
         skill_queries
-    ).distinct() #distinct to avoid duplicates
+    ).distinct() #distinct to avoid duplicates while recommending
 
     paginator = Paginator(recommended, 2)
     page_number = request.GET.get('page')
